@@ -1,4 +1,4 @@
-// PCSX2 v1.4.0 HL1 Load-Removal
+// PCSX2 v1.6.0 HL1 Load-Removal for WINDOWS 10
 // Based on PCSX2 v1.4.0 HL1 Load-Removal by SmileyAG and ScriptedSnark
 // This repository is focused to fine working Load-Removal on LiveSplit v1.8.18+ and optimized Version Detector (using ModuleSize instead of MD5Hash)
 // 
@@ -6,10 +6,10 @@
 // SET YOUR "COMPARE AGAINST" TO (GAME TIME) BY RIGHT CLICKING ON YOUR SPLITS OR YOU WON'T SEE LOADS GETTING PAUSED !!
 // WORKING ONLY ON EUROPE REGION
 
-state("pcsx2", "v1.4.0") // Offsets
+state("pcsx2", "v1.6.0") // Offsets
 {
-    	int loading: "spu2-x.dll", 0x0027E67C, 0xB18, 0x1A4; // Thanks to gstroin for helping with finding pointers on win10
-	string10 map: "pcsx2.exe", 0x00964440, 0x308, 0x824, 0xBB4;
+	int loading: "pcsx2.exe", 0x012BC95C, 0x2B8, 0xA4, 0x14;
+	string10 map: "pcsx2.exe", 0x0123E650, 0x1C0;
 }
 
 init // Version specific
@@ -17,8 +17,8 @@ init // Version specific
 	var mms = modules.First().ModuleMemorySize;
     	// print("0x" + mms.ToString("X"));
 
-	if(mms == 0x236B000)
-		version = "v1.4.0";
+	if(mms == 0x2D56000)
+		version = "v1.6.0";
 	else
 		version = "UNDETECTED";
 }
@@ -26,16 +26,6 @@ init // Version specific
 isLoading // Gametimer
 {
 	return current.loading == 1;
-}
-
-start // Start splitter
-{
-	return current.loading == 0 && current.map == "c1a0";
-}
-
-reset // Reset splitter
-{
-	return current.loading == 0 && old.loading == 1 && current.map == "c1a0";
 }
 
 update // Version specific
